@@ -98,7 +98,7 @@
                     android:gravity="left"
                     android:paddingBottom="@dimen/dimen_10"
                     android:paddingTop="@dimen/dimen_10"
-                    android:text="@string/reviews"
+                    android:text="@string/results"
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="@dimen/textsize_22"
                     android:textStyle="bold" />

@@ -31,7 +31,7 @@ public class ReviewDetailsActivity extends BaseActivity {
             ReviewDetailsFragment reviewDetailsFragment = new ReviewDetailsFragment();
             Bundle bundle = new Bundle();
             reviewDetailsFragment.setArguments(bundle);
-            bundle.putParcelable(IBundleParams.RESULT_OBJ, getIntent().getParcelableExtra(IBundleParams.RESULT_OBJ));
+            bundle.putParcelable(IBundleParams.RESULT, getIntent().getParcelableExtra(IBundleParams.RESULT));
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.review_details_container, reviewDetailsFragment)
                     .commit();

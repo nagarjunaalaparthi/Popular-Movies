@@ -56,7 +56,7 @@ public class MovieDetailsActivity extends BaseActivity implements MovieDetailsFr
             movieDetailsFragment = new MovieDetailsFragment();
             Bundle bundle = new Bundle();
             movieDetailsFragment.setArguments(bundle);
-            bundle.putParcelable(IBundleParams.RESULT_OBJ, getIntent().getParcelableExtra(IBundleParams.RESULT_OBJ));
+            bundle.putParcelable(IBundleParams.RESULT, getIntent().getParcelableExtra(IBundleParams.RESULT));
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.movie_details_container, movieDetailsFragment)
                     .commit();
@@ -69,7 +69,7 @@ public class MovieDetailsActivity extends BaseActivity implements MovieDetailsFr
     }
 
     void setDataToViews() {
-        movie = (Result) getIntent().getParcelableExtra(IBundleParams.RESULT_OBJ);
+        movie = (Result) getIntent().getParcelableExtra(IBundleParams.RESULT);
         if (favoriteMoviesManager.isFavorite(movie)) {
             updateFavouriteFab(true);
         }

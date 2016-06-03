@@ -48,9 +48,9 @@ public class ReviewDetailsFragment extends Fragment implements AppConstants {
     private void init() {
         ButterKnife.bind(this, rootView);
         Bundle bundle = getArguments();
-        Result review = (Result) bundle.getParcelable(IBundleParams.RESULT_OBJ);
-        mReviewerName.setText(review.getAuthor());
-        mReviewDesc.setText(review.getContent());
+        Result result = (Result) bundle.getParcelable(IBundleParams.RESULT);
+        mReviewerName.setText(result.getAuthor());
+        mReviewDesc.setText(result.getContent());
     }
 
 

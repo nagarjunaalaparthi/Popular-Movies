@@ -7,6 +7,6 @@ public interface AppConstants {
 
     interface IBundleParams{
 
-        String RESULT_OBJ = "ResultObj";
+        String RESULT = "ResultObj";
     }
 }

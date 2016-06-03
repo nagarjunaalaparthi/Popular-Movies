@@ -25,7 +25,7 @@
                 style="@style/match_wrap"
                 android:fontFamily="sans-serif-condensed"
                 android:gravity="left"
-                android:text="@string/review"
+                android:text="@string/result"
                 android:textColor="@android:color/white"
                 android:textSize="22sp" />
 

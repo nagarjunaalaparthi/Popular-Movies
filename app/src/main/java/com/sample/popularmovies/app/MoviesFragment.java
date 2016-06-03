@@ -232,6 +232,7 @@ public class MoviesFragment extends Fragment implements LoaderManager.LoaderCall
         pageNumber = 1;
         getMoviesData(pageNumber);
         moviesList.clear();
+        moviesAdapter.updateData(moviesList);
     }
 
     @Override

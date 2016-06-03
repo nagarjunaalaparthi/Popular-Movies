@@ -6,15 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -29,7 +25,7 @@ import android.widget.Toast;
 import com.sample.popularmovies.BuildConfig;
 import com.sample.popularmovies.R;
 import com.sample.popularmovies.services.RestInterface;
-import com.sample.popularmovies.services.models.movieapi.Result;
+import com.sample.popularmovies.services.models.reviewapi.Result;
 import com.sample.popularmovies.services.models.reviewapi.Reviews;
 import com.sample.popularmovies.services.models.videoapi.Videos;
 import com.sample.popularmovies.utils.AppConstants;
@@ -75,7 +71,7 @@ public class MovieDetailsFragment extends Fragment implements AppConstants, Netw
     TextView mAllReviews;
     @BindView(R.id.fab)
     FloatingActionButton favouriteFab;
-    Result movie;
+    com.sample.popularmovies.services.models.movieapi.Result movie;
     String youTubeVideoId;
     IMovieTrailerSetListener iMovieTrailerSetListener;
     LinearLayoutManager linearLayoutManager;
@@ -164,8 +160,7 @@ public class MovieDetailsFragment extends Fragment implements AppConstants, Netw
             iMovieTrailerSetListener = (IMovieTrailerSetListener) activity;
 
         } catch (ClassCastException ex) {
-            Log.v("", "Casting the activity as a IMovieTrailerSetListener  failed"
-                    + ex);
+            Log.v("", "Casting the activity as a IMovieTrailerSetListener  failed"+ ex);
             iMovieTrailerSetListener = null;
         }
     }
@@ -186,7 +181,7 @@ public class MovieDetailsFragment extends Fragment implements AppConstants, Netw
 
     void setDataToViews() {
         Bundle bundle = getArguments();
-        movie = (Result) bundle.getParcelable(IBundleParams.RESULT_OBJ);
+        movie = (com.sample.popularmovies.services.models.movieapi.Result) bundle.getParcelable(IBundleParams.RESULT);
         mMovieReleasedDate.setText(getString(R.string.format_release_date, AppUtils.formateDate(movie.getReleaseDate())));
         mMovieVoteAvg.setText(getString(R.string.format_vote_avg, String.valueOf(movie.getVoteAverage())));
         mMovieOverView.setText(movie.getOverview());
@@ -243,14 +238,14 @@ public class MovieDetailsFragment extends Fragment implements AppConstants, Netw
                     mReviewsViewLayout.setVisibility(View.VISIBLE);
                     if (getActivity() != null) {
                         for (int i = 0; i < reviews.getResults().size(); i++) {
-                            com.sample.popularmovies.services.models.reviewapi.Result review = reviews.getResults().get(i);
+                            Result result = reviews.getResults().get(i);
                             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                             View mReviewRowItem = inflater.inflate(R.layout.list_movie_review_item, null);
                             TextView mReviewerName = (TextView) mReviewRowItem.findViewById(R.id.reviewer_name);
                             TextView mReviewDesc = (TextView) mReviewRowItem.findViewById(R.id.review_description);
-                            mReviewerName.setText(review.getAuthor());
-                            mReviewDesc.setText(review.getContent());
-                            mReviewRowItem.setTag(review);
+                            mReviewerName.setText(result.getAuthor());
+                            mReviewDesc.setText(result.getContent());
+                            mReviewRowItem.setTag(result);
                             mReviewRowItem.setOnClickListener(reviewSelectedListener);
                             mDynamicReviewsLayout.addView(mReviewRowItem);
                         }
@@ -295,21 +290,10 @@ public class MovieDetailsFragment extends Fragment implements AppConstants, Netw
     View.OnClickListener reviewSelectedListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            com.sample.popularmovies.services.models.reviewapi.Result result = (com.sample.popularmovies.services.models.reviewapi.Result) v.getTag();
+            Result result = (Result) v.getTag();
             Intent intent = new Intent(getActivity(), ReviewDetailsActivity.class);
-            intent.putExtra(IBundleParams.RESULT_OBJ, (Parcelable) result);
-            View name = v.findViewById(R.id.reviewer_name);
-            View desc = v.findViewById(R.id.review_description);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Pair<View, String> pair1 = Pair.create(name, name.getTransitionName());
-                Pair<View, String> pair2 = Pair.create(desc, desc.getTransitionName());
-                ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation(getActivity(), pair1, pair2);
-
-                ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
-            } else {
-                startActivity(intent);
-            }
+            intent.putExtra(IBundleParams.RESULT, (Parcelable) result);
+            startActivity(intent);
 
         }
     };

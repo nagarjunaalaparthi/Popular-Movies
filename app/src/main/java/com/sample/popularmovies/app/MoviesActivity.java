@@ -63,7 +63,7 @@ public class MoviesActivity extends BaseActivity implements MoviesFragment.OnMov
         }
         if (!isTwoPane) {
             Intent intent = new Intent(this, MovieDetailsActivity.class);
-            intent.putExtra(IBundleParams.RESULT_OBJ, (Parcelable) item);
+            intent.putExtra(IBundleParams.RESULT, (Parcelable) item);
             if (viewStart != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 ActivityOptionsCompat options =
 
@@ -78,7 +78,7 @@ public class MoviesActivity extends BaseActivity implements MoviesFragment.OnMov
         } else {
             MovieDetailsFragment movieDetailsFragment = new MovieDetailsFragment();
             Bundle bundle = new Bundle();
-            bundle.putParcelable(IBundleParams.RESULT_OBJ, (Parcelable) item);
+            bundle.putParcelable(IBundleParams.RESULT, (Parcelable) item);
             movieDetailsFragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.movie_details_container, movieDetailsFragment)
